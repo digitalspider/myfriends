@@ -1,6 +1,6 @@
 package au.com.digitalspider.myfriends.api.contact.model;
 
-public enum State {
+public enum State implements Lookup {
     NSW("New South Wales"),
     QLD("Queensland"),
     VIC("Victoria"),
@@ -21,5 +21,10 @@ public enum State {
      */
     public String getLabel() {
         return label;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("{'name': '%s', 'label': '%s'}", this.name(), this.getLabel());
     }
 }

@@ -26,4 +26,9 @@ public enum ContactInfoType {
     public String getLabel() {
         return label;
     }
+
+    @Override
+    public String toString() {
+        return String.format("{'name': '%s', 'label': '%s'}", this.name(), this.getLabel());
+    }
 }
