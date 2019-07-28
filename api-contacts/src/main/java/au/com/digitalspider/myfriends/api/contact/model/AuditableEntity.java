@@ -3,12 +3,18 @@ package au.com.digitalspider.myfriends.api.contact.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 
 @MappedSuperclass
 public class AuditableEntity {
+    @ManyToOne
+	@JoinColumn(insertable = true, updatable = false)
     private User createdBy;
+    @ManyToOne
     private User updatedBy;
+    @ManyToOne
     private User deletedBy;
 	@Column(insertable = true, updatable = false)
 	private LocalDateTime createdAt = LocalDateTime.now();

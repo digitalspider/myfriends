@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import au.com.digitalspider.myfriends.api.contact.model.ContactInfoType;
 import au.com.digitalspider.myfriends.api.contact.model.Country;
 import au.com.digitalspider.myfriends.api.contact.model.Lookup;
 import au.com.digitalspider.myfriends.api.contact.model.State;
 import au.com.digitalspider.myfriends.api.contact.model.Status;
 
+@Service
 public class LookupService {
     public List<?> findByType(String type) {
         List<?> result = new ArrayList<>();

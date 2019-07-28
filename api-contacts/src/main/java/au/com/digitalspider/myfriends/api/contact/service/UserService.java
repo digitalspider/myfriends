@@ -6,10 +6,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 
 import au.com.digitalspider.myfriends.api.contact.model.User;
 import au.com.digitalspider.myfriends.api.contact.repo.UserRepository;
 
+@Service
 public class UserService extends BaseService<User, Long> implements UserDetailsService {
     @Autowired
     private UserRepository userRepository;

@@ -6,6 +6,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
@@ -27,6 +28,7 @@ public class Address {
     @Enumerated(EnumType.STRING)
     private Country country = Country.AU;
     @JsonIgnore
+    @ManyToOne
     private Contact contact;
 
 

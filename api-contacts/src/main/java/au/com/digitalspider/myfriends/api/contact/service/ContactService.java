@@ -3,11 +3,13 @@ package au.com.digitalspider.myfriends.api.contact.service;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import au.com.digitalspider.myfriends.api.contact.model.Contact;
 import au.com.digitalspider.myfriends.api.contact.model.User;
 import au.com.digitalspider.myfriends.api.contact.repo.ContactRepository;
 
+@Service
 public class ContactService extends BaseAuditableService<Contact, Long> {
     @Autowired
     private ContactRepository contactRepository;
@@ -24,7 +26,7 @@ public class ContactService extends BaseAuditableService<Contact, Long> {
 
     @Override
     public Iterable<Contact> all(User user) {
-        return contactRepository.findByCreatedBy(user.getId());
+        return contactRepository.findByCreatedById(user.getId());
     }
 
     public Optional<Contact> getExpanded(User user, Long id) throws Exception {

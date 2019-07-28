@@ -10,6 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -24,6 +25,7 @@ public class Contact extends AuditableEntity {
     @Size(min = 2, max = 128, message = "length must be 2 to 128")
     private String name;
     private String notes;
+    @ManyToOne
     private Document image;
     @Enumerated(EnumType.STRING)
     private Status status = Status.GOOD;
