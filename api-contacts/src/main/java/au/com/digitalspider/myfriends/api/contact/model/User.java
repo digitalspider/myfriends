@@ -18,233 +18,236 @@ import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class User implements UserDetails {
-    private static final long serialVersionUID = -2521435870529057557L;
+	private static final long serialVersionUID = -2521435870529057557L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @NotBlank
-    @Size(min = 3, max = 64, message = "length must be 3 to 64")
-    private String username;
-    @NotBlank
-    @Size(min = 3, max = 64, message = "length must be 3 to 64")
-    @JsonIgnore
-    private String password;
-    private String token;
+	private Long id;
 	@NotBlank
 	@Size(min = 3, max = 64, message = "length must be 3 to 64")
+	@Column(unique = true)
+	private String username;
+	@NotBlank
+	@Size(min = 3, max = 64, message = "length must be 3 to 64")
+	@JsonIgnore
+	private String password;
+	private String token;
+	@NotBlank
+	@Size(min = 3, max = 64, message = "length must be 3 to 64")
+	@Column(unique = true)
 	private String email;
-    
 
 	@Column(insertable = true, updatable = false)
 	private LocalDateTime createdAt = LocalDateTime.now();
 	private LocalDateTime updatedAt = LocalDateTime.now();
-    private LocalDateTime deletedAt;
+	private LocalDateTime deletedAt;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles = new ArrayList<Role>();
-    
-    private boolean expired;
-    private boolean locked;
-    private boolean enabled = true;
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private List<Role> roles = new ArrayList<Role>();
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return roles;
-    }
+	@Column(columnDefinition = "boolean default false")
+	private boolean expired;
+	@Column(columnDefinition = "boolean default false")
+	private boolean locked;
+	@Column(columnDefinition = "boolean default true")
+	private boolean enabled = true;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return !expired;
-    }
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return roles;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() {
-        return !locked;
-    }
+	@Override
+	public boolean isAccountNonExpired() {
+		return !expired;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return false; // TODO: Test JWT
-    }
+	@Override
+	public boolean isAccountNonLocked() {
+		return !locked;
+	}
 
-    /**
-     * @return Long return the id
-     */
-    public Long getId() {
-        return id;
-    }
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true; // TODO: Test JWT
+	}
 
-    /**
-     * @param id the id to set
-     */
-    public void setId(Long id) {
-        this.id = id;
-    }
+	/**
+	 * @return Long return the id
+	 */
+	public Long getId() {
+		return id;
+	}
 
-    /**
-     * @return String return the username
-     */
-    public String getUsername() {
-        return username;
-    }
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    /**
-     * @param username the username to set
-     */
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	/**
+	 * @return String return the username
+	 */
+	@Override
+	public String getUsername() {
+		return username;
+	}
 
+	/**
+	 * @param username the username to set
+	 */
+	public void setUsername(String username) {
+		this.username = username;
+	}
 
-    /**
-     * @return String return the password
-     */
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * @return String return the password
+	 */
+	@Override
+	public String getPassword() {
+		return password;
+	}
 
-    /**
-     * @param password the password to set
-     */
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * @param password the password to set
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    /**
-     * @return String return the token
-     */
-    public String getToken() {
-        return token;
-    }
+	/**
+	 * @return String return the token
+	 */
+	public String getToken() {
+		return token;
+	}
 
-    /**
-     * @param token the token to set
-     */
-    public void setToken(String token) {
-        this.token = token;
-    }
+	/**
+	 * @param token the token to set
+	 */
+	public void setToken(String token) {
+		this.token = token;
+	}
 
+	/**
+	 * @return List<Role> return the roles
+	 */
+	public List<Role> getRoles() {
+		return roles;
+	}
 
-    /**
-     * @return List<Role> return the roles
-     */
-    public List<Role> getRoles() {
-        return roles;
-    }
+	/**
+	 * @param roles the roles to set
+	 */
+	public void setRoles(List<Role> roles) {
+		this.roles = roles;
+	}
 
-    /**
-     * @param roles the roles to set
-     */
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
+	/**
+	 * @return boolean return the expired
+	 */
+	public boolean isExpired() {
+		return expired;
+	}
 
+	/**
+	 * @param expired the expired to set
+	 */
+	public void setExpired(boolean expired) {
+		this.expired = expired;
+	}
 
-    /**
-     * @return boolean return the expired
-     */
-    public boolean isExpired() {
-        return expired;
-    }
+	/**
+	 * @return boolean return the locked
+	 */
+	public boolean isLocked() {
+		return locked;
+	}
 
-    /**
-     * @param expired the expired to set
-     */
-    public void setExpired(boolean expired) {
-        this.expired = expired;
-    }
+	/**
+	 * @param locked the locked to set
+	 */
+	public void setLocked(boolean locked) {
+		this.locked = locked;
+	}
 
-    /**
-     * @return boolean return the locked
-     */
-    public boolean isLocked() {
-        return locked;
-    }
+	/**
+	 * @return boolean return the enabled
+	 */
+	@Override
+	public boolean isEnabled() {
+		return enabled;
+	}
 
-    /**
-     * @param locked the locked to set
-     */
-    public void setLocked(boolean locked) {
-        this.locked = locked;
-    }
+	/**
+	 * @param enabled the enabled to set
+	 */
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
 
-    /**
-     * @return boolean return the enabled
-     */
-    public boolean isEnabled() {
-        return enabled;
-    }
+	/**
+	 * @return String return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
 
-    /**
-     * @param enabled the enabled to set
-     */
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
-    }
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
+	/**
+	 * @return LocalDateTime return the createdAt
+	 */
+	public LocalDateTime getCreatedAt() {
+		return createdAt;
+	}
 
-    /**
-     * @return String return the email
-     */
-    public String getEmail() {
-        return email;
-    }
+	/**
+	 * @param createdAt the createdAt to set
+	 */
+	public void setCreatedAt(LocalDateTime createdAt) {
+		this.createdAt = createdAt;
+	}
 
-    /**
-     * @param email the email to set
-     */
-    public void setEmail(String email) {
-        this.email = email;
-    }
+	/**
+	 * @return LocalDateTime return the updatedAt
+	 */
+	public LocalDateTime getUpdatedAt() {
+		return updatedAt;
+	}
 
-    /**
-     * @return LocalDateTime return the createdAt
-     */
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+	/**
+	 * @param updatedAt the updatedAt to set
+	 */
+	public void setUpdatedAt(LocalDateTime updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 
-    /**
-     * @param createdAt the createdAt to set
-     */
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+	/**
+	 * @return LocalDateTime return the deletedAt
+	 */
+	public LocalDateTime getDeletedAt() {
+		return deletedAt;
+	}
 
-    /**
-     * @return LocalDateTime return the updatedAt
-     */
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
-
-    /**
-     * @param updatedAt the updatedAt to set
-     */
-    public void setUpdatedAt(LocalDateTime updatedAt) {
-        this.updatedAt = updatedAt;
-    }
-
-    /**
-     * @return LocalDateTime return the deletedAt
-     */
-    public LocalDateTime getDeletedAt() {
-        return deletedAt;
-    }
-
-    /**
-     * @param deletedAt the deletedAt to set
-     */
-    public void setDeletedAt(LocalDateTime deletedAt) {
-        this.deletedAt = deletedAt;
-    }
+	/**
+	 * @param deletedAt the deletedAt to set
+	 */
+	public void setDeletedAt(LocalDateTime deletedAt) {
+		this.deletedAt = deletedAt;
+	}
 
 }

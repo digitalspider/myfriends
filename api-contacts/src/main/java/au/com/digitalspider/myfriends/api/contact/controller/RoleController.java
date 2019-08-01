@@ -5,17 +5,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import au.com.digitalspider.myfriends.api.contact.ContactApiConstants;
-import au.com.digitalspider.myfriends.api.contact.model.User;
-import au.com.digitalspider.myfriends.api.contact.service.UserService;
+import au.com.digitalspider.myfriends.api.contact.model.Role;
+import au.com.digitalspider.myfriends.api.contact.service.RoleService;
 
 @RestController
-@RequestMapping(ContactApiConstants.API_PATH_USER)
-public class UserController extends BaseController<User, Long> {
+@RequestMapping(ContactApiConstants.API_PATH_ROLE)
+public class RoleController extends BaseController<Role, Long> {
 	@Autowired
-	private UserService userService;
+	private RoleService roleService;
 
 	@Override
-	protected UserService getBaseService() {
-		return userService;
+	protected RoleService getBaseService() {
+		return roleService;
 	}
 }

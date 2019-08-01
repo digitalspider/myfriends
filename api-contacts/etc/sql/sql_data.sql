@@ -5,4 +5,6 @@ INSERT INTO myfriends.role (id,name) VALUES
 INSERT INTO myfriends.user (id,username,password,email,created_at,updated_at) VALUES
 (1,'admin','admin','admin@admin.com',now(),now());
 
-INSERT INTO myfriends.userroles (user_id,role_id) VALUES (1,1);
+UPDATE myfriends.user set password='{noop}admin' where id=1;
+
+INSERT INTO myfriends.user_role (user_id,role_id) VALUES (1,1);

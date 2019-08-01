@@ -14,22 +14,22 @@ import au.com.digitalspider.myfriends.api.contact.model.Status;
 
 @Service
 public class LookupService {
-    public List<?> findByType(String type) {
-        List<?> result = new ArrayList<>();
-        switch(type.toUpperCase()) {
-            case Lookup.STATUS:
-                result = Arrays.asList(Status.values());
-                break;
-            case Lookup.COUNTRY:
-                result = Arrays.asList(Country.values());
-                break;
-            case Lookup.STATE:
-                result = Arrays.asList(State.values());
-                break;
-            case Lookup.INFOTYPE:
-                result = Arrays.asList(ContactInfoType.values());
-                break;
-        }
-        return result;
-    }
+	public List<Lookup> findByType(String type) {
+		List<Lookup> result = new ArrayList<>();
+		switch (type.toUpperCase()) {
+		case Lookup.STATUS:
+			result = Arrays.asList(Status.values());
+			break;
+		case Lookup.COUNTRY:
+			result = Arrays.asList(Country.values());
+			break;
+		case Lookup.STATE:
+			result = Arrays.asList(State.values());
+			break;
+		case Lookup.INFO:
+			result = Arrays.asList(ContactInfoType.values());
+			break;
+		}
+		return result;
+	}
 }

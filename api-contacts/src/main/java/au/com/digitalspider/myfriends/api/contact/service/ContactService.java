@@ -26,7 +26,7 @@ public class ContactService extends BaseAuditableService<Contact, Long> {
 
     @Override
     public Iterable<Contact> all(User user) {
-        return contactRepository.findByCreatedById(user.getId());
+        return contactRepository.findByCreatedBy(user);
     }
 
     public Optional<Contact> getExpanded(User user, Long id) throws Exception {

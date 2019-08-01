@@ -1,6 +1,6 @@
 package au.com.digitalspider.myfriends.api.contact.model;
 
-public enum ContactInfoType {
+public enum ContactInfoType implements Lookup {
     NAME("Name"),
     BIRTHDAY("Birthday"),
     ANNIVERSARY("Anniversary"),
@@ -20,15 +20,11 @@ public enum ContactInfoType {
         this.label = label;
     }
 
-    /**
-     * @return String return the label
-     */
     public String getLabel() {
         return label;
     }
 
-    @Override
-    public String toString() {
-        return String.format("{'name': '%s', 'label': '%s'}", this.name(), this.getLabel());
+    public String getName() {
+        return name();
     }
 }
