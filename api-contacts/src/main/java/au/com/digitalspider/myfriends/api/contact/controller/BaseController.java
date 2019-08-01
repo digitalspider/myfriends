@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import au.com.digitalspider.myfriends.api.contact.io.APIError;
@@ -44,6 +45,10 @@ public abstract class BaseController<ENTITY, ID> {
 		return user;
 	}
 
+	protected ENTITY merge(ENTITY entityFromDB, ENTITY entityFromUI) {
+		return entityFromDB;
+	}
+
 	@GetMapping("")
 	public ResponseEntity<?> all(Principal principal) {
 		try {
@@ -69,10 +74,27 @@ public abstract class BaseController<ENTITY, ID> {
 		}
 	}
 
-	@PostMapping("/{id}")
-	public ResponseEntity<?> update(Principal principal, @PathVariable ID id, @RequestBody ENTITY entity) {
+	@PostMapping("")
+	public ResponseEntity<?> create(Principal principal, @RequestBody ENTITY entity) {
 		try {
 			User user = getUser(principal);
+			entity = getBaseService().save(user, entity);
+			return ResponseEntity.ok().body(entity);
+		} catch (Exception e) {
+			return handleError(e);
+		}
+	}
+
+	@PutMapping("/{id}")
+	public ResponseEntity<?> update(Principal principal, @PathVariable ID id, @RequestBody ENTITY entityFromUI) {
+		try {
+			User user = getUser(principal);
+			Optional<ENTITY> optional = getBaseService().get(user, id);
+			if (!optional.isPresent()) {
+				return ResponseEntity.notFound().build();
+			}
+			ENTITY entityFromDB = optional.get();
+			ENTITY entity = merge(entityFromDB, entityFromUI);
 			entity = getBaseService().save(user, entity);
 			return ResponseEntity.ok().body(entity);
 		} catch (Exception e) {
